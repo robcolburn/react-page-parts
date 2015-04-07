@@ -1,0 +1,67 @@
+var sortBy = require('lodash/collection/sortBy');
+var indexBy = require('lodash/collection/indexBy');
+var invoke = require('lodash/collection/invoke');
+var identity = require('lodash/utility/identity');
+var flatten = require('lodash/array/flatten');
+
+// {Array<ReactComponent>} to extract data from.
+var pageComponents = [];
+
+// Flag to distinquish server-side.
+var isClient = typeof window !== 'undefined';
+
+/**
+ * Reset pageComponents list.
+ * - Do this before rendering component tree.
+ */
+exports.reset = function () {
+  pageComponents = [];
+};
+
+/**
+ * Get a set of data from the list of pageComponents.
+ * - Do this after rendering component tree.
+ *
+ * @param {string} methodName
+ *   Name of to collect, this will directly correspond
+ *   to a hook name in pageComponents that provide data.
+ * @return {object<key:ReactElement>}
+ *   React Elements ready to be rendered.
+ */
+exports.get = function (methodName) {
+  var components = sortBy(pageComponents, '_mountDepth');
+  var sets = invoke(components, methodName).filter(identity);
+  var elements = flatten(sets);
+  return indexBy(elements, exports.getInferredKey);
+};
+
+/**
+ * Gets a reference key to the ReactElement.
+ *
+ * @param {ReactElement} element
+ *   The ReactElement to get a key for.
+ * @return {string}
+ *   The inferred unique key.
+ */
+exports.getInferredKey = function (element) {
+  var key = element.key || element.type + (
+    (element.type === 'meta' && (element.props.name || element.props.property)) ||
+    (element.type === 'link' && element.props.rel) ||
+    (element.type === 'script' && element.props.src) ||
+    ''
+  );
+  return key;
+};
+
+/**
+ * Mixin for a ReactComponent to provide get methods:
+ *  - `getMeta` method to declare meta tags for the page.
+ *    @return {ReactComponents[]}
+ *  - `getScripts` method to declare script tags for the page.
+ *    @return {ReactComponents[]}
+ */
+exports.Mixin = isClient ? {} : {
+  componentWillMount: function() {
+    pageComponents.push(this);
+  }
+};
