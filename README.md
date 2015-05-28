@@ -14,10 +14,26 @@ Wrapping around where you call React's render function, you'll reset the compone
 
 
 ```js
+var PageParts = require('react-page-parts');
+PageParts.reset();
+var app = React.renderToString(React.createElement(App));
+var meta = React.renderToStaticMarkup(React.createElement('head', null, React.addons.createFragment(
+  PageParts.get('meta')
+)));
+```
 
-        PageParts.reset();
-        var app = React.renderToString(React.createElement(App));
-        var meta = React.renderToStaticMarkup(React.createElement('head', null, React.addons.createFragment(
-          PageParts.get('meta')
-        )));
+In your component:
+
+```jsx
+var React = require('react');
+
+var CoffeeShop = React.createClass({
+  mixins: [require('react-page-parts').PageParts],
+  meta: function () {
+    return [
+      <title>Coffee Shop</title>,
+      <meta name="description" content="Coffe is delish">
+    ];
+  }
+});
 ```
