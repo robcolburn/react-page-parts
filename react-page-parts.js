@@ -1,7 +1,7 @@
 var sortBy = require('lodash/collection/sortBy');
 var indexBy = require('lodash/collection/indexBy');
 var invoke = require('lodash/collection/invoke');
-var identity = require('lodash/utility/identity');
+var filter = require('lodash/collection/filter');
 var flatten = require('lodash/array/flatten');
 
 // {Array<ReactComponent>} to extract data from.
@@ -30,7 +30,7 @@ exports.reset = function () {
  */
 exports.get = function (methodName) {
   var components = sortBy(pageComponents, '_mountDepth');
-  var sets = invoke(components, methodName).filter(identity);
+  var sets = filter(invoke(components, methodName));
   var elements = flatten(sets);
   return indexBy(elements, exports.getInferredKey);
 };
@@ -54,10 +54,10 @@ exports.getInferredKey = function (element) {
 };
 
 /**
- * Mixin for a ReactComponent to provide get methods:
+ * Mixin for a ReactComponent to provide get methods
+ *
+ * For example:
  *  - `getMeta` method to declare meta tags for the page.
- *    @return {ReactComponents[]}
- *  - `getScripts` method to declare script tags for the page.
  *    @return {ReactComponents[]}
  */
 exports.Mixin = isClient ? {} : {
