@@ -4,7 +4,7 @@
   "description": "A way to extract other parts page, such as meta tags, from a React app.",
   "main": "react-page-parts.js",
   "scripts": {
-    "test": "mocha"
+    "test": "istanbul cover _mocha"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "chai": "^2.1.2",
     "chai-as-promised": "^4.3.0",
     "es6-promise": "^2.0.1",
+    "istanbul": "^0.3.14",
     "mocha": "^2.2.1",
     "react": "^0.13.1",
     "react-router": "^0.13.2"
