@@ -65,3 +65,5 @@ exports.Mixin = isClient ? {} : {
     pageComponents.push(this);
   }
 };
+
+exports.PageParts = exports.Mixin;
