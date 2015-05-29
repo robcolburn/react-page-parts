@@ -11,7 +11,9 @@ describe('Page Parts', function() {
       .then(function(Handler) {
         PageParts.reset();
         var app = render(Handler);
-        var meta = renderParts('head', null, PageParts.get('meta'));
+        var tags = PageParts.get('meta');
+        var meta = renderParts('head', null, tags);
+        Object.keys(tags).should.have.length(7);
         meta.should.contain('<title>Coffee Shop</title>');
         meta.should.contain('<meta name="description" content="coffeeish">');
       });

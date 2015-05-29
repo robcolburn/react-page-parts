@@ -45,8 +45,8 @@ exports.get = function (methodName) {
  */
 exports.getInferredKey = function (element) {
   var key = element.key || element.type + (
-    (element.type === 'meta' && (element.props.name || element.props.property)) ||
-    (element.type === 'link' && element.props.rel) ||
+    (element.type === 'meta' && (element.props.name || element.props.property || element.props.charSet || element.props.httpEquiv)) ||
+    (element.type === 'link' && element.props.rel + element.props.href) ||
     (element.type === 'script' && element.props.src) ||
     ''
   );

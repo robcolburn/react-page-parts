@@ -27,8 +27,13 @@ var CoffeeShop = React.createClass({
   meta: function () {
     var current = this.getCurrent();
     return [
+      DOM.meta({charSet: 'utf-8'}),
+      DOM.meta({httpEquiv: 'X-UA-Compatible', content: 'IE=edge'}),
       DOM.title(null, (current ? current.name + ': ' : '') + 'Coffee Shop'),
-      DOM.meta({name: 'description', content: (current ? current.desc : 'coffeeish')})
+      DOM.meta({name: 'description', content: (current ? current.desc : 'coffeeish')}),
+      DOM.link({rel: 'canonical', href: 'https://github.com/robcolburn/react-page-parts'}),
+      DOM.meta({property: 'og:type', content: 'object'}),
+      DOM.meta({property: 'og:title', content: (current ? current.name : '')})
     ];
   },
   scripts: function () {
