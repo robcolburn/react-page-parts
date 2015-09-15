@@ -3,9 +3,7 @@ var Router = require('react-router');
 var PageParts = require('..');
 var template = require('./fixtures/index.ejs');
 
-describe('Page Parts', function() {
-  var CoffeeShop = require('../example-app/CoffeeShop');
-
+function tests(CoffeeShop) {
   it('Render a React app w/ Page Parts', function () {
     return getRouteHandler(CoffeeShop.routes, '/')
       .then(function(Handler) {
@@ -58,50 +56,57 @@ describe('Page Parts', function() {
         html.should.contain('src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"');
       });
   });
+}
 
-  /**
-   * Get a Router Handler
-   * @param {Route} routes
-   *   Your route config.
-   * @param {string} url
-   *   The URL to route to.
-   * @return {Promise<ReactComponent>}
-   *   Yields ReactComponent w/ the current match all wrapped up inside it,
-   *   ready for you to render.
-   */
-  function getRouteHandler (routes, url) {
-    return new Promise(function(resolve) {
-      Router.run(routes, url, resolve);
-    });
-  }
+/**
+ * Get a Router Handler
+ * @param {Route} routes
+ *   Your route config.
+ * @param {string} url
+ *   The URL to route to.
+ * @return {Promise<ReactComponent>}
+ *   Yields ReactComponent w/ the current match all wrapped up inside it,
+ *   ready for you to render.
+ */
+function getRouteHandler (routes, url) {
+  return new Promise(function(resolve) {
+    Router.run(routes, url, resolve);
+  });
+}
 
-  /**
-   * Render associated tags for page.
-   *
-   * @param see React.createElement
-   *
-   * @return {string}
-   *   Result output HTML string.
-   */
-  function render (element, params, children) {
-    return React.renderToString(React.createElement(element, params, children));
-  }
+/**
+ * Render associated tags for page.
+ *
+ * @param see React.createElement
+ *
+ * @return {string}
+ *   Result output HTML string.
+ */
+function render (element, params, children) {
+  return React.renderToString(React.createElement(element, params, children));
+}
 
-  /**
-   * Render associated tags for page.
-   *
-   * @param {string} wrapperTag
-   *   Namae of a ReactElement to wrap element set with.
-   * @param {string} methodName
-   *   Name of to collect, this will directly correspond
-   *   to a hook name in components that provide data.
-   *
-   * @return {string}
-   *   Result output HTML string.
-   */
-  function renderParts (element, params, children) {
-    return React.renderToStaticMarkup(React.createElement(element, params, React.addons.createFragment(children)));
-  }
+/**
+ * Render associated tags for page.
+ *
+ * @param {string} wrapperTag
+ *   Namae of a ReactElement to wrap element set with.
+ * @param {string} methodName
+ *   Name of to collect, this will directly correspond
+ *   to a hook name in components that provide data.
+ *
+ * @return {string}
+ *   Result output HTML string.
+ */
+function renderParts (element, params, children) {
+  return React.renderToStaticMarkup(React.createElement(element, params, React.addons.createFragment(children)));
+}
 
+describe('Page Parts', function() {
+  describe('Mixin', function() {
+    tests(require('../example-app/CoffeeShop'));
+  });
+  describe('Direct', function() {
+    tests(require('../example-app/CoffeeShopSansMixin'));
+  });
 });
-

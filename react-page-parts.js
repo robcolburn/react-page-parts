@@ -19,6 +19,15 @@ exports.reset = function () {
 };
 
 /**
+ * Declare that a component provides Page Parts.
+ */
+exports.push = function (component) {
+  if (!isClient) {
+    pageComponents.push(component);
+  }
+};
+
+/**
  * Get a set of data from the list of pageComponents.
  * - Do this after rendering component tree.
  *
@@ -60,9 +69,9 @@ exports.getInferredKey = function (element) {
  *  - `getMeta` method to declare meta tags for the page.
  *    @return {ReactComponents[]}
  */
-exports.Mixin = isClient ? {} : {
+exports.Mixin = {
   componentWillMount: function() {
-    pageComponents.push(this);
+    exports.push(this);
   }
 };
 

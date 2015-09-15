@@ -26,9 +26,12 @@ In your component:
 
 ```jsx
 var React = require('react');
+var PageParts = require('react-page-parts');
 
 var CoffeeShop = React.createClass({
-  mixins: [require('react-page-parts').PageParts],
+  componentWillMount: function () {
+    PageParts.push(this);
+  },
   meta: function () {
     return [
       <title>Coffee Shop</title>,
