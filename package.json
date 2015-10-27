@@ -1,6 +1,6 @@
 {
   "name": "react-page-parts",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "A way to extract other parts page, such as meta tags, from a React app.",
   "main": "react-page-parts.js",
   "scripts": {
