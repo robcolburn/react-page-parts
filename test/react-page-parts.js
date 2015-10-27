@@ -56,6 +56,18 @@ function tests(CoffeeShop) {
         html.should.contain('src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"');
       });
   });
+  it('Get a general object from a deep tree', function () {
+    return getRouteHandler(CoffeeShop.routes, '/mocha')
+      .then(function(Handler) {
+        PageParts.reset();
+        return render(Handler);
+      })
+      .then(function(appHtml) {
+        var detail = PageParts.getObject('detail');
+        detail.hasCats.should.be.true;
+        detail.name.should.equal('coffee-shop');
+      });
+  });
 }
 
 /**

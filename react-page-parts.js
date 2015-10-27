@@ -3,6 +3,7 @@ var indexBy = require('lodash/collection/indexBy');
 var invoke = require('lodash/collection/invoke');
 var filter = require('lodash/collection/filter');
 var flatten = require('lodash/array/flatten');
+var merge = require('lodash/object/merge');
 
 // {Array<ReactComponent>} to extract data from.
 var pageComponents = [];
@@ -42,6 +43,22 @@ exports.get = function (methodName) {
   var sets = filter(invoke(components, methodName));
   var elements = flatten(sets);
   return indexBy(elements, exports.getInferredKey);
+};
+
+/**
+ * Get a merged data object from the list of pageComponents.
+ * - Do this after rendering component tree.
+ *
+ * @param {string} methodName
+ *   Name of to collect, this will directly correspond
+ *   to a hook name in pageComponents that provide data.
+ * @return {object}
+ *   Merged data object.
+ */
+exports.getObject = function (methodName) {
+  var components = sortBy(pageComponents, '_mountDepth');
+  var objects = invoke(components, methodName);
+  return merge.apply(this, objects);
 };
 
 /**
