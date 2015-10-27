@@ -43,6 +43,12 @@ var CoffeeShop = React.createClass({
       DOM.script({src: "//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"})
     ];
   },
+  detail: function () {
+    return {
+      hasCats: true,
+      name: 'coffee-shop'
+    };
+  },
   render: function () {
     var current = this.getCurrent();
     var kids = [];
